@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+title: "@three-ws/agent"
+abstract: "Run a three.ws agent on your own machine or VPS: a terminal UI with slash commands, streaming tool output, local file and shell tools in a resource-limited sandbox, the three.ws MCP tools and agent wallet, SQLite sessions with full-text search, parallel subagents, natural-language cron, and a Telegram gateway."
+version: 0.1.1
+license: Apache-2.0
+repository-code: "https://github.com/nirholas/three-ws-agent"
+url: "https://three.ws"
+authors:
+  - name: three.ws
+    website: "https://three.ws"

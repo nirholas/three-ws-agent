@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>@three-ws/agent: Run a three.ws agent on your own machine or VPS</title>
+<meta name="description" content="Run a three.ws agent on your own machine or VPS: a terminal UI with slash commands, streaming tool output, local file and shell tools in a resource-limited sandbox, the three.ws MCP tools and agent wallet, SQLite sessions with full-text search, parallel subagents, natural-language cron, and a...">
+<link rel="canonical" href="https://nirholas.github.io/three-ws-agent/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="three.ws">
+<meta property="og:title" content="@three-ws/agent">
+<meta property="og:description" content="Run a three.ws agent on your own machine or VPS: a terminal UI with slash commands, streaming tool output, local file and shell tools in a resource-limited sandbox, the three.ws MCP tools and agent wallet, SQLite sessions with full-text search, parallel subagents, natural-language cron, and a...">
+<meta property="og:url" content="https://nirholas.github.io/three-ws-agent/">
+<meta property="og:image" content="https://nirholas.github.io/three-ws-agent/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="@three-ws/agent">
+<meta name="twitter:description" content="Run a three.ws agent on your own machine or VPS: a terminal UI with slash commands, streaming tool output, local file and shell tools in a resource-limited sandbox, the three.ws MCP tools and agent wallet, SQLite sessions with full-text search, parallel subagents, natural-language cron, and a...">
+<meta name="twitter:image" content="https://nirholas.github.io/three-ws-agent/og.png">
+<meta name="keywords" content="three.ws, agent, ai-agent, tui, terminal, cli, mcp, model-context-protocol, cron, subagents, telegram, solana, openai-compatible, ai-agents">
+<link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt">
+<link rel="icon" href="https://three.ws/three-ws-mcp-icon.svg" type="image/svg+xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"@three-ws/agent","description":"Run a three.ws agent on your own machine or VPS: a terminal UI with slash commands, streaming tool output, local file and shell tools in a resource-limited sandbox, the three.ws MCP tools and agent wallet, SQLite sessions with full-text search, parallel subagents, natural-language cron, and a...","codeRepository":"https://github.com/nirholas/three-ws-agent","programmingLanguage":"JavaScript","license":"https://spdx.org/licenses/Apache-2.0.html","version":"0.1.1","url":"https://nirholas.github.io/three-ws-agent/","author":{"@type":"Organization","name":"three.ws","url":"https://three.ws"},"keywords":"three.ws, agent, ai-agent, tui, terminal, cli, mcp, model-context-protocol, cron, subagents, telegram, solana, openai-compatible, ai-agents"}</script>
+<style>:root{--bg:#fff;--fg:#111418;--mut:#586069;--line:#e3e6ea;--acc:#2563eb;--code:#f4f6f8;--card:#fafbfc}
+@media(prefers-color-scheme:dark){:root{--bg:#0b0d10;--fg:#e8eaed;--mut:#9aa3ad;--line:#232830;--acc:#6ea0ff;--code:#14181d;--card:#10141a}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
+header.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-weight:700;text-decoration:none;color:var(--fg)}
+.bar nav{margin-left:auto;display:flex;gap:16px;font-size:14px}
+.bar nav a{color:var(--mut);text-decoration:none;transition:color .15s}.bar nav a:hover{color:var(--fg)}
+.hero{max-width:1100px;margin:0 auto;padding:48px 16px 24px}
+.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:0 0 12px;letter-spacing:-.02em}
+.hero p{color:var(--mut);max-width:70ch;font-size:18px;margin:0 0 24px}
+.install{display:flex;align-items:center;gap:8px;max-width:620px;background:var(--code);border:1px solid var(--line);border-radius:10px;padding:6px 6px 6px 14px}
+.install code{flex:1;overflow-x:auto;white-space:nowrap;font:14px ui-monospace,SFMono-Regular,Menlo,monospace}
+.install button{border:0;background:var(--acc);color:#fff;border-radius:7px;padding:8px 14px;font:600 13px system-ui;cursor:pointer;transition:transform .12s,opacity .12s}
+.install button:hover{opacity:.9}.install button:active{transform:scale(.96)}
+.cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.cta a{padding:9px 16px;border:1px solid var(--line);border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;color:var(--fg);transition:border-color .15s,transform .15s}
+.cta a:hover{border-color:var(--acc);transform:translateY(-1px)}.cta a.pri{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.layout{max-width:1100px;margin:0 auto;padding:8px 16px 64px;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:40px}
+@media(max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}.toc{display:none}}
+.toc{position:sticky;top:76px;align-self:start;font-size:14px;border-left:1px solid var(--line);padding-left:16px}
+.toc p{margin:0 0 8px;font-weight:700;color:var(--mut);text-transform:uppercase;font-size:12px;letter-spacing:.06em}
+.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:6px 0}.toc a{color:var(--mut);text-decoration:none}.toc a:hover{color:var(--fg)}
+main{min-width:0;overflow-wrap:anywhere}main pre code{overflow-wrap:normal}main img{max-width:100%;height:auto}
+main h2{margin-top:2.2em;padding-bottom:.3em;border-bottom:1px solid var(--line)}
+.anchor{margin-left:-1.1em;padding-right:.4em;text-decoration:none;opacity:0;color:var(--mut)}h2:hover .anchor,h3:hover .anchor,h4:hover .anchor{opacity:1}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:14px;line-height:1.5}
+code{font:0.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.15em .35em;border-radius:5px}pre code{background:none;padding:0}
+table{border-collapse:collapse;display:block;overflow-x:auto;max-width:100%}th,td{border:1px solid var(--line);padding:8px 12px;text-align:left}th{background:var(--card)}
+blockquote{margin:1em 0;padding:.2em 1em;border-left:4px solid var(--line);color:var(--mut)}
+footer{border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+.foot-in{max-width:1100px;margin:0 auto;padding:24px 16px;display:flex;gap:16px;flex-wrap:wrap}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+<a class="brand" href="https://nirholas.github.io/three-ws-agent/">@three-ws/agent</a>
+<nav aria-label="Project links"><a href="https://github.com/nirholas/three-ws-agent">GitHub</a><a href="https://www.npmjs.com/package/@three-ws/agent">npm</a><a href="llms.txt">llms.txt</a><a href="https://three.ws">three.ws</a></nav>
+</div></header>
+<section class="hero">
+<h1>@three-ws/agent</h1>
+<p>Run a three.ws agent on your own machine or VPS: a terminal UI with slash commands, streaming tool output, local file and shell tools in a resource-limited sandbox, the three.ws MCP tools and agent wallet, SQLite sessions with full-text search, parallel subagents, natural-language cron, and a...</p>
+<div class="install" role="group" aria-label="Install command"><code>npx -y @three-ws/agent</code><button type="button" data-copy="npx -y @three-ws/agent">Copy</button></div>
+<div class="cta"><a class="pri" href="https://github.com/nirholas/three-ws-agent">View on GitHub</a><a href="https://github.com/nirholas/three-ws-agent/stargazers">Star the repo</a></div>
+</section>
+<div class="layout">
+<main id="content"><h1>@three-ws/agent</h1>
+<p><strong>Run a three.ws agent on your own machine: the platform&#39;s tools and wallet over MCP, your files and shell in a sandbox, every risky call behind an approval gate.</strong></p>
+<p>This package is the local runtime behind <code>three-ws-agent</code>. It runs the same
+agent loop the server uses (<a href="https://github.com/nirholas/three-ws-agent/blob/main/./agent-runtime">@three-ws/agent-runtime</a>) on this
+machine, with tools from two places:</p>
+<ul>
+<li><strong>local</strong>: read, list, write and edit files inside the workspace, run shell
+commands in a resource-limited sandbox, fetch public web pages as Markdown;</li>
+<li><strong>remote</strong>: every tool on the three.ws MCP servers (<code>/api/mcp-agent</code> and
+<code>/api/mcp</code> by default), mounted over Streamable HTTP with your account&#39;s key.</li>
+</ul>
+<p>The model is either the metered three.ws endpoint (<code>&lt;origin&gt;/api/v1</code>, billed to
+your account&#39;s credits) or any OpenAI-compatible base URL you point it at: a
+local llama.cpp, Ollama or vLLM server, or a hosted lane with its own key.</p>
+<h2 id="status"><a class="anchor" href="#status" aria-label="Link to this section">#</a>Status</h2>
+<p>The runtime core in <code>src/</code> is complete and runs today (see the example below).
+The terminal UI and the <code>three-ws-agent</code> command that <code>package.json</code> declares
+(<code>bin/three-ws-agent.js</code>, <code>src/index.js</code>, <code>src/cli.js</code>) and its <code>tests/</code>
+directory are not in the tree yet, so the package is not publishable and is not
+on npm. Until they land, use the modules by path from inside this repository, as
+the example does. The design brief for the full CLI (slash commands, subagents,
+natural-language cron, Telegram gateway mode) is
+<a href="https://github.com/nirholas/three-ws-agent/blob/main/./../docs/prompts/20-local-agent-runtime-tui.md">docs/prompts/20-local-agent-runtime-tui.md</a>.</p>
+<p><code>src/loop.js</code> and <code>src/tools/registry.js</code> import <code>@three-ws/agent-runtime</code>,
+which resolves through the monorepo workspace link; it is not yet listed in this
+package&#39;s <code>dependencies</code>.</p>
+<h2 id="requirements"><a class="anchor" href="#requirements" aria-label="Link to this section">#</a>Requirements</h2>
+<p>Node <strong>22.13+</strong>: the session store uses the built-in <code>node:sqlite</code>, so there is
+no native addon to compile and the same install works on Linux, macOS, Windows,
+WSL and Termux. Run <code>npm install</code> at the repo root first.</p>
+<h2 id="example"><a class="anchor" href="#example" aria-label="Link to this section">#</a>Example</h2>
+<p>Save as <code>agent-check.mjs</code> at the repo root and run <code>node agent-check.mjs</code>. It
+needs no account: it loads the config, builds the local toolset, reads the
+workspace, proves the approval gate and the sandbox&#39;s credential scrubbing, and
+indexes a session for full-text search.</p>
+<pre><code class="language-js">import { loadConfig } from &#39;./packages/agent-cli/src/config.js&#39;;
+import { databasePath, systemEnv } from &#39;./packages/agent-cli/src/paths.js&#39;;
+import { openStore } from &#39;./packages/agent-cli/src/store.js&#39;;
+import { localTools } from &#39;./packages/agent-cli/src/tools/local.js&#39;;
+import { createToolset } from &#39;./packages/agent-cli/src/tools/registry.js&#39;;
+import { gateCall } from &#39;./packages/agent-cli/src/loop.js&#39;;
+
+const env = systemEnv();
+const config = loadConfig(env);
+console.log(&#39;origin&#39;, config.origin, &#39;model&#39;, config.model.provider, config.model.model);
+console.log(&#39;db would live at&#39;, databasePath(env));
+
+const toolset = createToolset({ local: localTools({ root: process.cwd(), config }), maxTools: config.mcp.maxTools });
+console.log(&#39;tools&#39;, toolset.all().map((t) =&gt; `${t.name}:${t.toolClass}`).join(&#39; &#39;));
+// read_file:read list_dir:read write_file:write edit_file:write shell:shell web_fetch:network
+
+console.log(await toolset.get(&#39;list_dir&#39;).run({ path: &#39;packages/agent-cli&#39;, depth: 2 }));
+
+// Shell is an `ask` class by default, and with nobody at the keyboard the gate refuses it.
+const shell = toolset.get(&#39;shell&#39;);
+console.log(await gateCall({ tool: shell, args: { command: &#39;ls&#39; }, approvals: config.approvals, approve: null }));
+
+// Run directly, the sandbox strips credentials from the child&#39;s environment.
+const out = await shell.run({ command: &#39;echo &quot;token=$THREE_WS_API_KEY sandbox=$THREE_WS_SANDBOX&quot;&#39; });
+console.log(out.exitCode, out.stdout.trim()); // 0 token= sandbox=1
+
+const store = openStore(&#39;:memory:&#39;);
+const session = store.createSession({ title: &#39;readme check&#39; });
+store.appendMessages(session.id, [
+	{ role: &#39;user&#39;, content: &#39;check the wallet balance&#39; },
+	{ role: &#39;assistant&#39;, content: &#39;The agent wallet balance covers this run.&#39; },
+]);
+console.log(store.search(&#39;wallet balance&#39;).map((r) =&gt; r.snippet)); // [ &#39;check the [wallet] [balance]&#39; ]
+</code></pre>
+<h3 id="one-full-turn-with-a-model-and-the-threews-mcp-tools"><a class="anchor" href="#one-full-turn-with-a-model-and-the-threews-mcp-tools" aria-label="Link to this section">#</a>One full turn with a model and the three.ws MCP tools</h3>
+<p>This needs either a three.ws key with the <code>inference</code> scope (<code>THREE_WS_API_KEY</code>,
+or a signed-in credential store), or your own OpenAI-compatible model via
+<code>THREE_WS_AGENT_BASE_URL</code> and <code>THREE_WS_AGENT_MODEL</code>.</p>
+<pre><code class="language-js">import { loadConfig } from &#39;./packages/agent-cli/src/config.js&#39;;
+import { resolveCredential } from &#39;./packages/agent-cli/src/credentials.js&#39;;
+import { createModel } from &#39;./packages/agent-cli/src/model.js&#39;;
+import { connectMcp } from &#39;./packages/agent-cli/src/mcp.js&#39;;
+import { localTools } from &#39;./packages/agent-cli/src/tools/local.js&#39;;
+import { createToolset } from &#39;./packages/agent-cli/src/tools/registry.js&#39;;
+import { runTurn } from &#39;./packages/agent-cli/src/loop.js&#39;;
+
+const config = loadConfig();
+const credential = resolveCredential();
+const model = createModel(config, credential);
+const remote = await connectMcp({ origin: config.origin, servers: config.mcp.servers, token: credential?.token });
+for (const s of remote.servers) console.log(s.server, s.error || `${s.toolCount} tools`);
+
+const toolset = createToolset({ local: localTools({ root: process.cwd(), config }), remote, maxTools: config.mcp.maxTools });
+const messages = [
+	{ role: &#39;system&#39;, content: &#39;You are a three.ws agent running on the owner\&#39;s machine.&#39; },
+	{ role: &#39;user&#39;, content: &#39;How many lines are in packages/agent-cli/src/paths.js?&#39; },
+];
+const turn = await runTurn({
+	model,
+	toolset,
+	messages,
+	query: messages.at(-1).content,
+	approvals: config.approvals,
+	budget: config.budget,
+	onContent: (delta) =&gt; process.stdout.write(delta),
+	onEvent: (e) =&gt; e.kind === &#39;tool_end&#39; &amp;&amp; console.error(`\n[${e.name} ${e.ms}ms]`),
+});
+console.log(&#39;\n&#39;, turn.usage, turn.toolsUsed, `$${turn.billedUsd}`);
+await remote.close();
+</code></pre>
+<p>With no <code>approve</code> callback, any <code>ask</code>-class call (writes, shell, financial) is
+refused with a message the model reads and routes around. A UI passes
+<code>approve: async ({ tool, args }) =&gt; ({ ok: true })</code> after asking the person.</p>
+<h2 id="how-it-works"><a class="anchor" href="#how-it-works" aria-label="Link to this section">#</a>How it works</h2>
+<h3 id="the-loop-srcloopjs"><a class="anchor" href="#the-loop-srcloopjs" aria-label="Link to this section">#</a>The loop (<a href="https://github.com/nirholas/three-ws-agent/blob/main/src/loop.js">src/loop.js</a>)</h3>
+<p><code>runTurn</code> drives <code>AgentRuntime</code> from <code>@three-ws/agent-runtime</code>:</p>
+<ol>
+<li>Call the model with this turn&#39;s tool list, streaming text through <code>onContent</code>.</li>
+<li>Every planned tool call passes the runtime&#39;s <code>GuardChain</code> (with <code>TradeGuard</code>),
+then the approval gate for its class.</li>
+<li>Allowed calls run concurrently; refused ones return an error result the
+model can read.</li>
+<li>Repeat until the model answers, the turn&#39;s tool rounds (<code>budget.maxToolRounds</code>)
+are spent (the model is then asked to answer with no tools), the step budget
+(<code>budget.maxSteps</code>) ends it, or the <code>signal</code> aborts it (<code>InterruptedError</code>).</li>
+</ol>
+<p>Tool output is capped at 24,000 characters per result. State is plain JSON: a
+session&#39;s transcript is exactly <code>messages</code>.</p>
+<h3 id="approvals"><a class="anchor" href="#approvals" aria-label="Link to this section">#</a>Approvals</h3>
+<p>Each tool belongs to one class, and <code>agent.json</code> sets a mode per class:</p>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Default</th>
+<th>Tools</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>read</code></td>
+<td><code>allow</code></td>
+<td><code>read_file</code>, <code>list_dir</code>, MCP tools with policy tier <code>read</code> or <code>readOnlyHint</code></td>
+</tr>
+<tr>
+<td><code>write</code></td>
+<td><code>ask</code></td>
+<td><code>write_file</code>, <code>edit_file</code>, MCP tools with tier <code>write</code> or no hint</td>
+</tr>
+<tr>
+<td><code>shell</code></td>
+<td><code>ask</code></td>
+<td><code>shell</code></td>
+</tr>
+<tr>
+<td><code>network</code></td>
+<td><code>allow</code></td>
+<td><code>web_fetch</code></td>
+</tr>
+<tr>
+<td><code>financial</code></td>
+<td><code>ask</code></td>
+<td>MCP tools with tier <code>financial</code> or <code>destructiveHint</code></td>
+</tr>
+</tbody></table>
+<p>Modes are <code>ask</code>, <code>allow</code> and <code>deny</code>. <strong><code>financial</code> can never be <code>allow</code></strong>: a
+config that says so is read as <code>ask</code>, so no tool that moves funds runs without a
+person saying yes. Remote tools are classified from the
+<code>_meta[&#39;three.ws/policy&#39;].tier</code> block every three.ws MCP server stamps
+(<a href="https://github.com/nirholas/three-ws-agent/blob/main/./mcp-policy">@three-ws/mcp-policy</a>).</p>
+<h3 id="tool-selection-srctoolsregistryjs"><a class="anchor" href="#tool-selection-srctoolsregistryjs" aria-label="Link to this section">#</a>Tool selection (<a href="https://github.com/nirholas/three-ws-agent/blob/main/src/tools/registry.js">src/tools/registry.js</a>)</h3>
+<p>Local tools are always offered. The MCP servers expose far more tools than a
+model should see at once, so each turn offers the top <code>mcp.maxTools</code> remote
+tools by relevance to the request (the runtime&#39;s <code>ToolRelevanceScorer</code>), plus
+every remote tool already used in the session. A name defined by two servers is
+mounted once (first server in config order wins) and reported in
+<code>remote.duplicates</code>. The platform&#39;s remote <code>web_fetch</code> supersedes the local one
+when it is mounted.</p>
+<h3 id="the-sandbox-srctoolssandboxjs"><a class="anchor" href="#the-sandbox-srctoolssandboxjs" aria-label="Link to this section">#</a>The sandbox (<a href="https://github.com/nirholas/three-ws-agent/blob/main/src/tools/sandbox.js">src/tools/sandbox.js</a>)</h3>
+<table>
+<thead>
+<tr>
+<th>Limit</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Wall time</td>
+<td><code>sandbox.timeoutMs</code> (default 120 s, per-call up to 30 min); the whole process group is killed.</td>
+</tr>
+<tr>
+<td>CPU time</td>
+<td><code>ulimit -t</code> (<code>sandbox.cpuSeconds</code>, default 60) on POSIX.</td>
+</tr>
+<tr>
+<td>File size</td>
+<td><code>ulimit -f</code> (<code>sandbox.maxFileMb</code>, default 256) so a runaway write cannot fill the disk.</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>stdout and stderr each capped at <code>sandbox.maxOutputBytes</code> (default 200,000).</td>
+</tr>
+<tr>
+<td>Environment</td>
+<td>Any variable whose name contains KEY, TOKEN, SECRET, PASSWORD, CREDENTIAL, PRIVATE, MNEMONIC, SEED, COOKIE or SESSION is removed unless listed in <code>sandbox.passEnv</code>. <code>THREE_WS_SANDBOX=1</code> is set.</td>
+</tr>
+<tr>
+<td>Paths</td>
+<td>Every file tool resolves against the workspace root and refuses <code>..</code>, absolute paths elsewhere, and symlinks that point out.</td>
+</tr>
+</tbody></table>
+<p><code>web_fetch</code> refuses URLs that resolve to loopback, private, link-local or CGNAT
+addresses unless <code>webFetch.allowPrivate</code> is <code>true</code>, and rechecks every redirect hop.</p>
+<h3 id="sessions-srcstorejs"><a class="anchor" href="#sessions-srcstorejs" aria-label="Link to this section">#</a>Sessions (<a href="https://github.com/nirholas/three-ws-agent/blob/main/src/store.js">src/store.js</a>)</h3>
+<p>One SQLite file (WAL mode, so a UI, a scheduler and a gateway can share it)
+holds sessions, their full transcripts exactly as the model saw them (tool calls
+included, so a resumed session continues with full fidelity), an FTS5 index over
+user and assistant text, subagent and cron runs with token usage and billed USD,
+cron schedules (<code>local</code> or <code>server</code> mode, with an atomic claim so two processes
+never run the same job), and a small key-value table. <code>exportSession(id)</code>
+returns a portable <code>three-ws-agent-session</code> v1 JSON document.</p>
+<h2 id="configuration"><a class="anchor" href="#configuration" aria-label="Link to this section">#</a>Configuration</h2>
+<h3 id="files"><a class="anchor" href="#files" aria-label="Link to this section">#</a>Files</h3>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Path</th>
+<th>Override</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Settings</td>
+<td><code>~/.config/three-ws/agent.json</code></td>
+<td><code>THREE_WS_AGENT_CONFIG</code>, or <code>XDG_CONFIG_HOME</code></td>
+</tr>
+<tr>
+<td>Credentials</td>
+<td><code>~/.config/three-ws/credentials.json</code> (shared with the <code>three-ws</code> CLI)</td>
+<td><code>THREE_WS_CREDENTIALS</code></td>
+</tr>
+<tr>
+<td>Data (sessions DB)</td>
+<td><code>~/.local/share/three-ws/agent/agent.db</code>, <code>%LOCALAPPDATA%\three-ws\agent</code> on Windows</td>
+<td><code>THREE_WS_AGENT_HOME</code>, or <code>XDG_DATA_HOME</code></td>
+</tr>
+</tbody></table>
+<p><code>agent.json</code> holds only what you changed; <code>loadConfig</code> deep-merges it over the
+defaults. A minimal file that points the agent at a local Ollama server and
+turns shell approvals off:</p>
+<pre><code class="language-json">{
+  &quot;model&quot;: { &quot;provider&quot;: &quot;openai&quot;, &quot;baseUrl&quot;: &quot;http://localhost:11434/v1&quot;, &quot;model&quot;: &quot;llama3.1&quot; },
+  &quot;approvals&quot;: { &quot;shell&quot;: &quot;allow&quot; }
+}
+</code></pre>
+<p>Defaults: origin <code>https://three.ws</code>; model provider <code>three-ws</code>, model
+<code>three-ws/agent</code>, <code>maxTokens</code> 4096, <code>temperature</code> 0.3; MCP servers
+<code>/api/mcp-agent</code> and <code>/api/mcp</code> with <code>maxTools</code> 24; budget 12 tool rounds and
+40 steps per turn; subagents 8 rounds, 24 steps, 4 concurrent.</p>
+<h3 id="environment-overrides"><a class="anchor" href="#environment-overrides" aria-label="Link to this section">#</a>Environment overrides</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>THREE_WS_ORIGIN</code></td>
+<td>API origin (staging, a local <code>npm run dev</code>).</td>
+</tr>
+<tr>
+<td><code>THREE_WS_AGENT_ID</code></td>
+<td>Agent id, sent as <code>x-three-agent</code> on model calls.</td>
+</tr>
+<tr>
+<td><code>THREE_WS_AGENT_BASE_URL</code></td>
+<td>Switches to provider <code>openai</code> at this base URL.</td>
+</tr>
+<tr>
+<td><code>THREE_WS_AGENT_MODEL</code></td>
+<td>Model id.</td>
+</tr>
+<tr>
+<td><code>THREE_WS_AGENT_API_KEY</code>, <code>OPENAI_API_KEY</code></td>
+<td>Key for provider <code>openai</code> (or name your own with <code>model.apiKeyEnv</code>).</td>
+</tr>
+<tr>
+<td><code>THREE_WS_API_KEY</code></td>
+<td>three.ws key; wins over the credential store.</td>
+</tr>
+</tbody></table>
+<h3 id="credentials-srccredentialsjs"><a class="anchor" href="#credentials-srccredentialsjs" aria-label="Link to this section">#</a>Credentials (<a href="https://github.com/nirholas/three-ws-agent/blob/main/src/credentials.js">src/credentials.js</a>)</h3>
+<p>Resolution order: <code>THREE_WS_API_KEY</code>, then the store&#39;s <code>agent_key</code> slot, then
+the <code>three-ws</code> CLI&#39;s <code>stdio_key</code>, then its <code>auth</code> (an API key, or an OAuth token
+that has not expired). The agent keeps its own key in <code>agent_key</code>, so signing in
+here never replaces the credential your MCP clients use, and one
+<code>npx three-ws setup</code> is enough to start. Sign-in uses the device-link flow at
+<code>&lt;origin&gt;/api/cli/link</code> and <code>/api/cli/token</code> (RFC 8628 polling) and asks for
+<code>profile agents:read agents:write memory:read memory:write wallet:read inference</code>;
+money-moving scopes are opt-in. Files are written atomically with mode <code>0600</code>.</p>
+<h2 id="module-reference"><a class="anchor" href="#module-reference" aria-label="Link to this section">#</a>Module reference</h2>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Exports</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>src/config.js</code></td>
+<td><code>loadConfig</code>, <code>saveConfig(patch)</code>, <code>readConfigFile</code>, <code>deepMerge</code>, <code>enforceApprovalFloor</code>, <code>DEFAULTS</code>, <code>DEFAULT_ORIGIN</code>, <code>THREE_WS_MODEL</code>, <code>APPROVAL_MODES</code>, <code>TOOL_CLASSES</code></td>
+</tr>
+<tr>
+<td><code>src/paths.js</code></td>
+<td><code>systemEnv</code>, <code>configDir</code>, <code>configPath</code>, <code>credentialsPath</code>, <code>dataDir</code>, <code>databasePath</code></td>
+</tr>
+<tr>
+<td><code>src/credentials.js</code></td>
+<td><code>resolveCredential</code>, <code>hasScope</code>, <code>startDeviceLink</code>, <code>pollDeviceLink</code>, <code>saveAgentKey</code>, <code>clearAgentKey</code>, <code>readStoreFile</code>, <code>writeStoreFile</code>, <code>mask</code>, <code>DEFAULT_SCOPES</code></td>
+</tr>
+<tr>
+<td><code>src/http.js</code></td>
+<td><code>request</code>, <code>requestJson</code>, <code>errorOf</code>, <code>ApiError</code>, <code>VERSION</code>, <code>USER_AGENT</code></td>
+</tr>
+<tr>
+<td><code>src/model.js</code></td>
+<td><code>createModel(config, credential)</code> returning <code>{ target, label, round, listModels }</code>, <code>resolveModelTarget</code>, <code>readSse</code></td>
+</tr>
+<tr>
+<td><code>src/mcp.js</code></td>
+<td><code>connectMcp({ origin, servers, token })</code> returning <code>{ servers, tools, duplicates, call, close }</code>, <code>classifyMcpTool</code>, <code>flattenToolResult</code></td>
+</tr>
+<tr>
+<td><code>src/loop.js</code></td>
+<td><code>runTurn</code>, <code>gateCall</code>, <code>roundsThisTurn</code>, <code>serializeToolResult</code>, <code>InterruptedError</code>, <code>MAX_TOOL_OUTPUT_CHARS</code></td>
+</tr>
+<tr>
+<td><code>src/store.js</code></td>
+<td><code>openStore(file)</code> (sessions, messages, search, export, runs, crons, kv), <code>ftsQuery</code>, <code>newId</code></td>
+</tr>
+<tr>
+<td><code>src/tools/local.js</code></td>
+<td><code>localTools({ root, config, fetchImpl? })</code>, <code>resolveInWorkspace</code>, <code>htmlToText</code>, <code>WorkspaceError</code></td>
+</tr>
+<tr>
+<td><code>src/tools/registry.js</code></td>
+<td><code>createToolset({ local, remote, extra, maxTools })</code> returning <code>{ get, all, schemasFor, size }</code></td>
+</tr>
+<tr>
+<td><code>src/tools/sandbox.js</code></td>
+<td><code>runCommand(command, opts)</code>, <code>scrubEnv</code></td>
+</tr>
+<tr>
+<td><code>src/tools/netguard.js</code></td>
+<td><code>assertPublicUrl</code>, <code>isPrivateAddress</code></td>
+</tr>
+</tbody></table>
+<h2 id="related"><a class="anchor" href="#related" aria-label="Link to this section">#</a>Related</h2>
+<ul>
+<li><a href="https://github.com/nirholas/three-ws-agent/blob/main/./agent-runtime">packages/agent-runtime</a>: the loop, guards and tool scorer this runtime is built on.</li>
+<li><a href="https://github.com/nirholas/three-ws-agent/blob/main/./mcp-policy">packages/mcp-policy</a>: the tool tiers the approval gate reads.</li>
+<li><a href="https://github.com/nirholas/three-ws-agent/blob/main/./three-ws-cli">packages/three-ws-cli</a> and <a href="https://github.com/nirholas/three-ws-agent/blob/main/./../docs/cli.md">docs/cli.md</a>: <code>npx three-ws setup</code> writes the shared credential store.</li>
+<li><a href="https://github.com/nirholas/three-ws-agent/blob/main/./../docs/mcp.md">docs/mcp.md</a>: the MCP servers the agent mounts.</li>
+</ul>
+<h2 id="license"><a class="anchor" href="#license" aria-label="Link to this section">#</a>License</h2>
+<p>Apache-2.0. See <a href="https://github.com/nirholas/three-ws-agent/blob/main/LICENSE">LICENSE</a>.</p>
+</main>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#status">Status</a></li><li><a href="#requirements">Requirements</a></li><li><a href="#example">Example</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#configuration">Configuration</a></li><li><a href="#module-reference">Module reference</a></li><li><a href="#related">Related</a></li><li><a href="#license">License</a></li></ul></nav>
+</div>
+<footer><div class="foot-in"><span>Apache-2.0 licensed</span><a href="https://github.com/nirholas/three-ws-agent/issues">Issues</a><a href="https://github.com/nirholas/three-ws-agent/blob/main/CONTRIBUTING.md">Contributing</a><a href="https://github.com/nirholas/three-ws-agent/security/policy">Security</a><a href="https://three.ws">Part of three.ws</a></div></footer>
+<script>document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+var t=b.getAttribute('data-copy');var done=function(){var o=b.textContent;b.textContent='Copied';setTimeout(function(){b.textContent=o},1400)};
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){})}
+else{var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){}a.remove()}})});</script>
+</body>
+</html>
